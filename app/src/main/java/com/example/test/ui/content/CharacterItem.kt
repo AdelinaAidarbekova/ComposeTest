@@ -10,6 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import coil3.util.DebugLogger
 import com.example.test.domain.model.CharacterModel
 
@@ -23,7 +25,10 @@ fun CharacterItem(
 		.build()
 	Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
 		AsyncImage(
-			model = character.image,
+			model = ImageRequest.Builder(LocalContext.current)
+				.data(character.image)
+				.crossfade(true)
+				.build(),
 			contentDescription = character.name,
 			modifier = Modifier.size(120.dp),
 			imageLoader = imageLoader,

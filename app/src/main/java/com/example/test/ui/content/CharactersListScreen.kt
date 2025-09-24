@@ -50,7 +50,7 @@ fun CharactersListScreen(
 			
 			state.charactersList.isNotEmpty() -> {
 				LazyColumn(modifier = Modifier.fillMaxSize()) {
-					items(items = state.charactersList) { character ->
+					items(items = state.charactersList, key = { it.id }) { character ->
 						CharacterItem(character)
 					}
 				}
