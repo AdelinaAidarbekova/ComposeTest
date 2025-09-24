@@ -2,6 +2,7 @@ plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.compose)
+	alias(libs.plugins.ksp)
 }
 
 android {
@@ -77,6 +78,11 @@ dependencies {
 	debugImplementation(libs.ui.tooling)
 	implementation(libs.coil.compose)
 	implementation(libs.coil.network.okhttp)
+	
+	// Room
+	implementation(libs.room.runtime)
+	implementation(libs.room.ktx)
+	ksp(libs.room.compiler)
 
 //	implementation("androidx.navigation:navigation-compose:2.8.0")
 }
