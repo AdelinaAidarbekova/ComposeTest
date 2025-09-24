@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.test.domain.usecase.GetCharactersUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class CharactersViewModel(
@@ -24,13 +22,19 @@ class CharactersViewModel(
 	private fun loadCharacters() {
 		viewModelScope.launch(Dispatchers.IO) {
 			_state.update { it.copy(isLoading = true, error = null) }
-			getCharactersUseCase.invoke()
-				.onSuccess { result ->
-					_state.update { it.copy(isLoading = false, charactersList = result) }
+			getCharactersUseCase.invoke().collect { result ->
+				result.onSuccess {
+					_state.update {
+						it.copy(
+							isLoading = false,
+							charactersList = result.getOrNull().orEmpty()
+						)
+					}
 				}
-				.onFailure { error ->
+				result.onFailure { error ->
 					_state.update { it.copy(isLoading = false, error = error.message) }
 				}
+			}
 		}
 	}
 	
