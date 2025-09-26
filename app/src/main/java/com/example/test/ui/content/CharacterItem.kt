@@ -1,5 +1,6 @@
 package com.example.test.ui.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,12 +19,13 @@ import com.example.test.domain.model.CharacterModel
 @Composable
 fun CharacterItem(
 	character: CharacterModel,
+	onCLick: () -> Unit
 ) {
 	val context = LocalContext.current
 	val imageLoader = ImageLoader.Builder(context)
 		.logger(DebugLogger())
 		.build()
-	Row(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+	Row(modifier = Modifier.fillMaxWidth().padding(8.dp).clickable { onCLick.invoke() }) {
 		AsyncImage(
 			model = ImageRequest.Builder(LocalContext.current)
 				.data(character.image)
