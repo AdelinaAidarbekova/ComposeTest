@@ -21,7 +21,7 @@ class RickRepositoryImpl(
 			dao.insertAll(remote.mapToDao())
 			emit(Result.success(remote.mapToDomain()))
 		} catch (e: Exception) {
-			emit(Result.failure(Throwable("Something went wrong")))
+			emit(Result.failure(Throwable(e.message)))
 		}
 	}
 	
