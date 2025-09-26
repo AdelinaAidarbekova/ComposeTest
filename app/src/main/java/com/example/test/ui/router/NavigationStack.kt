@@ -28,7 +28,9 @@ fun NavigationStack() {
 				}
 			)
 		) {
-			DetailScreen(id = it.arguments?.getInt(ID_ARGUMENT) ?: 0)
+			DetailScreen(
+				id = it.arguments?.getInt(ID_ARGUMENT) ?: 0,
+				onBack = { navController.popBackStack() })
 		}
 	}
 }

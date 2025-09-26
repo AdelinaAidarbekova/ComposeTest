@@ -3,6 +3,7 @@ package com.example.test.data.repository
 import com.example.test.data.RickApi
 import com.example.test.data.room.CharacterDao
 import com.example.test.domain.RickRepository
+import com.example.test.domain.model.CharacterInfoModel
 import com.example.test.domain.model.CharacterModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -21,6 +22,14 @@ class RickRepositoryImpl(
 			emit(Result.success(remote.mapToDomain()))
 		} catch (e: Exception) {
 			emit(Result.failure(Throwable("Something went wrong")))
+		}
+	}
+	
+	override suspend fun getCharacterById(id: Int): Result<CharacterInfoModel> {
+		return try {
+			Result.success(api.getCharacterById(id).mapToDomain())
+		} catch (e: Exception) {
+			Result.failure(Throwable(e.message))
 		}
 	}
 }

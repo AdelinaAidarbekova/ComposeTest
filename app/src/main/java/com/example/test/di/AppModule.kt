@@ -5,8 +5,10 @@ import com.example.test.data.RickApi
 import com.example.test.data.repository.RickRepositoryImpl
 import com.example.test.data.room.AppDatabase
 import com.example.test.domain.RickRepository
+import com.example.test.domain.usecase.GetCharacterByIdUseCase
 import com.example.test.domain.usecase.GetCharactersUseCase
 import com.example.test.presentation.CharactersViewModel
+import com.example.test.presentation.details.CharacterDetailsViewModel
 import com.example.test.utils.Const.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,15 +24,21 @@ val appModule = module {
 	
 	single { getOkHttpClient() }
 	
-	single<RickApi> { getRickApi(retrofit = get()) }
-	
-	single<RickRepository> { RickRepositoryImpl(get(), get()) }
-	factory { GetCharactersUseCase(get()) }
-	viewModel { CharactersViewModel(get()) }
 	single {
 		Room.databaseBuilder(get(), AppDatabase::class.java, "app_db").build()
 	}
 	single { get<AppDatabase>().characterDao() }
+	
+	single<RickApi> { getRickApi(retrofit = get()) }
+	single<RickRepository> { RickRepositoryImpl(get(), get()) }
+	
+	factory { GetCharactersUseCase(get()) }
+	factory { GetCharacterByIdUseCase(get()) }
+	
+	viewModel { CharactersViewModel(get()) }
+	viewModel { CharacterDetailsViewModel(get()) }
+	
+	
 }
 
 fun getRickApi(retrofit: Retrofit): RickApi {
